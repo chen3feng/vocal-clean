@@ -57,7 +57,7 @@ python3 -m venv .venv
 `examples/` 目录下是两个真实录音（在青海湖边休息区的一家汉堡店户外录制，背景风声较大），
 分别给出了原始文件和处理后的人声：
 
-**▶ [在线试听（原始 vs 人声）](https://chen3feng.github.io/vocal-clean/)**
+**▶ [在线试听（原始 vs 人声）](https://blog.chen3feng.top/vocal-clean/)**
 
 | 原始 | 处理后（人声） |
 | --- | --- |
