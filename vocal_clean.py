@@ -6,7 +6,7 @@
 流程：
   1. 分离   —— 用 demucs(htdemucs) 把人声从音乐/伴奏/噪声里分离出来
   2. 统一   —— 把比“典型响度”更响的段落压到同一水平（只降不升，避免放大噪声）
-  3. 归一化 —— 整体归一化到目标 LUFS（默认 -16）
+  3. 归一化 —— 整体归一化到目标 LUFS（默认 -16，可用 --no-norm 跳过）
 
 依赖：
   - demucs（含 torch）、numpy —— 请用装有它们的 python 运行本脚本
@@ -21,6 +21,7 @@
   --trim 秒         只保留前 N 秒（裁掉结尾的静音/多余片段）
   --target-db X     音量统一的响度上限 dB（默认自动=典型响度+3dB）
   --lufs X          最终归一化目标响度（默认 -16）
+  --no-norm         跳过响度归一化（保留电平统一后的原始响度）
   --keep            保留中间产物（人声 wav / 电平后 wav）
 
 示例：
@@ -159,8 +160,8 @@ def _loudnorm_measure(wav_in, lufs):
     return json.loads(txt[i:j + 1])
 
 
-def normalize(wav_in, out_wav, out_m4a, lufs):
-    """loudnorm 两遍：整体归一化到目标 LUFS，输出 wav + m4a。"""
+def normalize(wav_in, out_wav, lufs):
+    """loudnorm 两遍：整体归一化到目标 LUFS，写出无损 wav。"""
     m = _loudnorm_measure(wav_in, lufs)
     filt = (
         f"loudnorm=I={lufs}:TP=-1.5:LRA=11"
@@ -172,7 +173,11 @@ def normalize(wav_in, out_wav, out_m4a, lufs):
     )
     run([ffmpeg(), "-y", "-i", wav_in, "-af", filt,
          "-ar", "44100", "-c:a", "pcm_s16le", out_wav])
-    run([ffmpeg(), "-y", "-i", out_wav,
+
+
+def encode(wav_in, out_m4a):
+    """wav 编码为 m4a（AAC 256k）。"""
+    run([ffmpeg(), "-y", "-i", wav_in,
          "-c:a", "aac", "-b:a", "256k", "-ar", "44100", out_m4a])
 
 
@@ -190,6 +195,8 @@ def main():
                     help="音量统一响度上限 dB（默认自动）")
     ap.add_argument("--lufs", type=float, default=-16.0,
                     help="最终归一化响度")
+    ap.add_argument("--no-norm", action="store_true",
+                    help="跳过响度归一化")
     ap.add_argument("--keep", action="store_true", help="保留中间产物")
     args = ap.parse_args()
 
@@ -222,9 +229,16 @@ def main():
         leveled = os.path.join(work, "leveled.wav")
         level(cur, leveled, target_db=args.target_db)
 
-        # 4. 响度归一化
+        # 4. 响度归一化（可选）
         out_wav = os.path.join(outdir, base + ".wav")
-        normalize(leveled, out_wav, out_abs, args.lufs)
+        if args.no_norm:
+            shutil.copy(leveled, out_wav)
+            print("[norm] 已跳过响度归一化", file=sys.stderr)
+        else:
+            normalize(leveled, out_wav, args.lufs)
+
+        # 5. 编码 m4a
+        encode(out_wav, out_abs)
 
         if args.keep:
             keep_dir = os.path.join(outdir, base + "_work")

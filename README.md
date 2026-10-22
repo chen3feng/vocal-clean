@@ -32,6 +32,9 @@ python3 -m venv .venv
 # 完整流程：分离 + 统一 + 归一化
 .venv/bin/python vocal_clean.py 歌.mp3 -o 歌_人声.m4a
 
+# 只做分离 + 音量统一，跳过响度归一化（保留原始整体响度）
+.venv/bin/python vocal_clean.py 歌.mp3 -o 歌_人声.m4a --no-norm
+
 # 已有人声轨，跳过分离，统一音量并截掉 55s 之后
 .venv/bin/python vocal_clean.py 人声.wav --skip-separate --trim 55 -o 人声_统一.m4a
 ```
@@ -46,6 +49,7 @@ python3 -m venv .venv
 | `--trim` | 只保留前 N 秒 | — |
 | `--target-db` | 音量统一响度上限 (dB) | 自动 |
 | `--lufs` | 最终归一化响度 | `-16` |
+| `--no-norm` | 跳过响度归一化 | — |
 | `--keep` | 保留中间产物 | — |
 
 ## 示例
