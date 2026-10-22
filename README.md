@@ -57,13 +57,12 @@ python3 -m venv .venv
 `examples/` 目录下是两个真实录音（在青海湖边休息区的一家汉堡店户外录制，背景风声较大），
 分别给出了原始文件和处理后的人声：
 
-| 原始（▶ 点开试听） | 处理后·人声（▶ 点开试听） |
-| --- | --- |
-| [派乐汉堡rap.mp3](examples/派乐汉堡rap.mp3) | [派乐汉堡rap_人声.mp3](examples/派乐汉堡rap_人声.mp3) |
-| [汉堡.mp3](examples/汉堡.mp3) | [汉堡_人声.mp3](examples/汉堡_人声.mp3) |
+**▶ [在线试听（原始 vs 人声）](https://chen3feng.github.io/vocal-clean/)**
 
-> 上面的 `.mp3` 用于在 GitHub 网页里直接点开试听（GitHub 自带音频播放器）。
-> 原始的 `.m4a` 文件与处理成品 `.m4a` 也在 `examples/` 目录下。
+| 原始 | 处理后（人声） |
+| --- | --- |
+| [`派乐汉堡rap.m4a`](examples/派乐汉堡rap.m4a) | [`派乐汉堡rap_人声.m4a`](examples/派乐汉堡rap_人声.m4a) |
+| [`汉堡.m4a`](examples/汉堡.m4a) | [`汉堡_人声.m4a`](examples/汉堡_人声.m4a) |
 
 复现示例（第一个例子结尾混入了另一首歌，用 `--trim 55` 截掉）：
 

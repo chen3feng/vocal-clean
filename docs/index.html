@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vocal-clean · 示例试听</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    max-width: 720px; margin: 40px auto; padding: 0 20px;
+    color: #1f2328; background: #fff;
+    line-height: 1.6;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e6edf3; background: #0d1117; }
+    .group { border-color: #30363d; }
+    .group label { color: #8b949e; }
+    a { color: #58a6ff; }
+  }
+  h1 { font-size: 1.5rem; }
+  .intro { color: #57606a; }
+  .group { margin: 28px 0; padding: 20px; border: 1px solid #d0d7de; border-radius: 8px; }
+  .group h2 { margin: 0 0 14px; font-size: 1.1rem; }
+  .row { margin: 14px 0; }
+  .row label { display: block; font-weight: 600; margin-bottom: 6px; color: #57606a; font-size: .9rem; }
+  audio { width: 100%; }
+</style>
+</head>
+<body>
+<h1>vocal-clean · 示例试听</h1>
+<p class="intro">两段户外录音（青海湖边休息区的汉堡店，背景风声较大）的人声分离效果对比：原始录音 vs 处理后的人声。</p>
+
+<div class="group">
+  <h2>派乐汉堡rap</h2>
+  <div class="row"><label>原始录音</label><audio controls preload="none" src="audio/派乐汉堡rap.mp3"></audio></div>
+  <div class="row"><label>处理后 · 人声</label><audio controls preload="none" src="audio/派乐汉堡rap_人声.mp3"></audio></div>
+</div>
+
+<div class="group">
+  <h2>汉堡</h2>
+  <div class="row"><label>原始录音</label><audio controls preload="none" src="audio/汉堡.mp3"></audio></div>
+  <div class="row"><label>处理后 · 人声</label><audio controls preload="none" src="audio/汉堡_人声.mp3"></audio></div>
+</div>
+
+<p><a href="https://github.com/chen3feng/vocal-clean">← 返回仓库</a></p>
+</body>
+</html>
